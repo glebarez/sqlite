@@ -42,6 +42,25 @@ func TestParseDDL(t *testing.T) {
 			{NameValue: sql.NullString{String: "text", Valid: true}, DataTypeValue: sql.NullString{String: "varchar(10)", Valid: true}, ColumnTypeValue: sql.NullString{String: "varchar(10)", Valid: true}, DefaultValueValue: sql.NullString{String: "测试，", Valid: true}, NullableValue: sql.NullBool{Valid: true}, UniqueValue: sql.NullBool{Valid: true}, PrimaryKeyValue: sql.NullBool{Valid: true}},
 		},
 		},
+		{
+			"table_name_with_dash",
+			[]string{
+				"CREATE TABLE `test-a` (`id` int NOT NULL)",
+				"CREATE UNIQUE INDEX `idx_test-a_id` ON `test-a`(`id`)",
+			},
+			1,
+			[]migrator.ColumnType{
+				{
+					NameValue:         sql.NullString{String: "id", Valid: true},
+					DataTypeValue:     sql.NullString{String: "int", Valid: true},
+					ColumnTypeValue:   sql.NullString{String: "int", Valid: true},
+					NullableValue:     sql.NullBool{Bool: false, Valid: true},
+					DefaultValueValue: sql.NullString{Valid: true},
+					UniqueValue:       sql.NullBool{Valid: true},
+					PrimaryKeyValue:   sql.NullBool{Valid: true},
+				},
+			},
+		},
 	}
 
 	for _, p := range params {

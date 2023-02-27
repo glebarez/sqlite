@@ -160,7 +160,7 @@ func (dialector Dialector) QuoteTo(writer clause.Writer, str string) {
 }
 
 func (dialector Dialector) Explain(sql string, vars ...interface{}) string {
-	return logger.ExplainSQL(sql, nil, `"`, vars...)
+	return logger.ExplainSQL(sql, nil, `'`, vars...)
 }
 
 func (dialector Dialector) DataTypeOf(field *schema.Field) string {

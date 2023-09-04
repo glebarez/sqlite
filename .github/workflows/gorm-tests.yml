@@ -26,12 +26,12 @@ jobs:
     - run: go version
 
     - name: Check out this repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         path: sqlite
         
     - name: Check out GORM repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: go-gorm/gorm
         path: gorm

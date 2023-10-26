@@ -27,7 +27,7 @@ jobs:
       
       - name: Make success badge 
         if: ${{ env.tests_failed == '0' }}
-        uses: schneegans/dynamic-badges-action@v1.6.0
+        uses: schneegans/dynamic-badges-action@v1.7.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: fb4d23f63d866b3e1e58b26d2f5ed01f
@@ -40,7 +40,7 @@ jobs:
           
       - name: Make fail badge
         if: ${{ env.tests_failed != '0' }}
-        uses: schneegans/dynamic-badges-action@v1.6.0
+        uses: schneegans/dynamic-badges-action@v1.7.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: fb4d23f63d866b3e1e58b26d2f5ed01f

@@ -45,10 +45,11 @@ func (dialector Dialector) Name() string {
 }
 
 func (dialector Dialector) Initialize(db *gorm.DB) (err error) {
+	if dialector.DriverName == "" {
+		dialector.DriverName = DriverName
+	}
 	if dialector.Conn != nil {
 		db.ConnPool = dialector.Conn
-	} else if dialector.DriverName != "" {
-		db.ConnPool, err = sql.Open(dialector.DriverName, dialector.DSN)
 	} else {
 		conn, err := sql.Open(dialector.DriverName, dialector.DSN)
 		if err != nil {

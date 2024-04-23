@@ -26,8 +26,18 @@ type Dialector struct {
 	Conn       gorm.ConnPool
 }
 
+type Config struct {
+	DriverName string
+	DSN        string
+	Conn       gorm.ConnPool
+}
+
 func Open(dsn string) gorm.Dialector {
 	return &Dialector{DSN: dsn}
+}
+
+func New(config Config) gorm.Dialector {
+	return &Dialector{DSN: config.DSN, DriverName: config.DriverName, Conn: config.Conn}
 }
 
 func (dialector Dialector) Name() string {
@@ -38,7 +48,6 @@ func (dialector Dialector) Initialize(db *gorm.DB) (err error) {
 	if dialector.DriverName == "" {
 		dialector.DriverName = DriverName
 	}
-
 	if dialector.Conn != nil {
 		db.ConnPool = dialector.Conn
 	} else {

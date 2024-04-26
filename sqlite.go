@@ -7,7 +7,6 @@ import (
 
 	"gorm.io/gorm/callbacks"
 
-	gosqlite "github.com/glebarez/go-sqlite"
 	sqlite3 "modernc.org/sqlite/lib"
 
 	"gorm.io/gorm"
@@ -237,7 +236,7 @@ func (dialectopr Dialector) RollbackTo(tx *gorm.DB, name string) error {
 
 func (dialector Dialector) Translate(err error) error {
 	switch terr := err.(type) {
-	case *gosqlite.Error:
+	case interface{ Code() int }:
 		switch terr.Code() {
 		case sqlite3.SQLITE_CONSTRAINT_UNIQUE:
 			return gorm.ErrDuplicatedKey

@@ -26,6 +26,13 @@ type Dialector struct {
 	Conn       gorm.ConnPool
 }
 
+type Config struct {
+	DriverName string
+	DSN        string
+	Conn       gorm.ConnPool
+}
+
+
 func Open(dsn string) gorm.Dialector {
 	return &Dialector{DSN: dsn}
 }
@@ -71,6 +78,10 @@ func (dialector Dialector) Initialize(db *gorm.DB) (err error) {
 		db.ClauseBuilders[k] = v
 	}
 	return
+}
+
+func New(config Config) gorm.Dialector {
+	return &Dialector{DSN: config.DSN, DriverName: config.DriverName, Conn: config.Conn}
 }
 
 func (dialector Dialector) ClauseBuilders() map[string]clause.ClauseBuilder {

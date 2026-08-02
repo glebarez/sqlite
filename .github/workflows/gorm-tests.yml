@@ -18,26 +18,27 @@ jobs:
     runs-on: ${{ matrix.platform }}
 
     steps:
-    - name: Set up Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: ${{ matrix.go }}
-        check-latest: true
-    - run: go version
-
     - name: Check out this repo
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         path: sqlite
         
     - name: Check out GORM repo
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         repository: go-gorm/gorm
         path: gorm
 
+    - name: Set up Go
+      uses: actions/setup-go@v7
+      with:
+        go-version: ${{ matrix.go }}
+        check-latest: true
+        cache: false
+    - run: go version
+
     - name: go mod package cache
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       with:
         path: ~/go/pkg/mod
         key: ${{ runner.os }}-go-${{ matrix.go }}-${{ hashFiles('**/go.mod') }}
@@ -66,7 +67,7 @@ jobs:
 
     - name: save tests results
       if: ${{ always() }}
-      uses: actions/upload-artifact@v4 
+      uses: actions/upload-artifact@v7
       with:
         name: ${{ runner.os }}-${{ matrix.go }}-tests.out
         path: ./gorm/tests/${{ runner.os }}-${{ matrix.go }}-tests.out

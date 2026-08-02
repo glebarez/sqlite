@@ -433,6 +433,11 @@ func TestGetColumns(t *testing.T) {
 			columns: []string{"`id`", "`text`", "`user_id`"},
 		},
 		{
+			name:    "with_unquoted_constraint",
+			ddl:     "CREATE TABLE `notes` (`id` integer NOT NULL,`user_id` integer,CONSTRAINT fk_users_notes FOREIGN KEY (`user_id`) REFERENCES `users`(`id`))",
+			columns: []string{"`id`", "`user_id`"},
+		},
+		{
 			name:    "with_check",
 			ddl:     "CREATE TABLE Persons (ID int NOT NULL,LastName varchar(255) NOT NULL,FirstName varchar(255),Age int,CHECK (Age>=18),CHECK (FirstName!='John'))",
 			columns: []string{"`ID`", "`LastName`", "`FirstName`", "`Age`"},

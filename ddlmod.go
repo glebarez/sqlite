@@ -13,12 +13,11 @@ import (
 
 var (
 	sqliteSeparator    = "`|\"|'"
-	sqliteColumnQuote  = "`"
 	uniqueRegexp       = regexp.MustCompile(fmt.Sprintf(`^(?:CONSTRAINT [%v]?[\w-]+[%v]? )?UNIQUE (.*)$`, sqliteSeparator, sqliteSeparator))
 	indexRegexp        = regexp.MustCompile(fmt.Sprintf(`(?is)CREATE(?: UNIQUE)? INDEX [%v]?[\w\d-]+[%v]?(?s:.*?)ON (.*)$`, sqliteSeparator, sqliteSeparator))
 	tableRegexp        = regexp.MustCompile(fmt.Sprintf(`(?is)(CREATE TABLE [%v]?[\w\d-]+[%v]?)(?:\s*\((.*)\))?(.*)$`, sqliteSeparator, sqliteSeparator))
 	checkRegexp        = regexp.MustCompile(`^(?i)CHECK[\s]*\(`)
-	constraintRegexp   = regexp.MustCompile(fmt.Sprintf(`^(?i)CONSTRAINT\s+%[1]s[\w\d_]+%[1]s[\s]+`, sqliteColumnQuote))
+	constraintRegexp   = regexp.MustCompile("(?i)^CONSTRAINT\\s+(?:`[^`]+`|\"[^\"]+\"|'[^']+'|\\[[^\\]]+\\]|\\S+)\\s+")
 	separatorRegexp    = regexp.MustCompile(fmt.Sprintf("[%v]", sqliteSeparator))
 	columnRegexp       = regexp.MustCompile(fmt.Sprintf(`^[%v]?([\w\d]+)[%v]?\s+([\w\(\)\d]+)(.*)$`, sqliteSeparator, sqliteSeparator))
 	defaultValueRegexp = regexp.MustCompile(`(?i) DEFAULT \(?(.+)?\)?( |COLLATE|GENERATED|$)`)

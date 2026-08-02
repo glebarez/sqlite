@@ -2,8 +2,8 @@ name: GORM-tests
 
 on:
   push:
-    branches-ignore:
-      - 'orig'
+    branches:
+      - master
   pull_request:
     branches-ignore:
       - 'orig'

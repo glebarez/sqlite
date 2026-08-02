@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download artifact
-        uses: dawidd6/action-download-artifact@v6
+        uses: dawidd6/action-download-artifact@v21
         with:
           workflow: gorm-tests.yml
           workflow_conclusion: completed
@@ -33,7 +33,7 @@ jobs:
       
       - name: Make success badge 
         if: ${{ env.tests_failed == '0' }}
-        uses: schneegans/dynamic-badges-action@v1.7.0
+        uses: schneegans/dynamic-badges-action@v1.9.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: fb4d23f63d866b3e1e58b26d2f5ed01f
@@ -46,7 +46,7 @@ jobs:
           
       - name: Make fail badge
         if: ${{ env.tests_failed != '0' }}
-        uses: schneegans/dynamic-badges-action@v1.7.0
+        uses: schneegans/dynamic-badges-action@v1.9.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: fb4d23f63d866b3e1e58b26d2f5ed01f

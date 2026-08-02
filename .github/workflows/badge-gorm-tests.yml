@@ -19,11 +19,17 @@ jobs:
           path: .
       
       - name: Prepare badge data
-        working-directory: Linux-1.19-tests.out
         run: |
-          echo "tests_passed=$(cat ./*.out | grep PASS | wc -l)" >> $GITHUB_ENV
-          echo "tests_skipped=$(cat ./*.out | grep SKIP | wc -l)" >> $GITHUB_ENV
-          echo "tests_failed=$(cat ./*.out | grep FAIL | wc -l)" >> $GITHUB_ENV
+          artifact_dir="$(find . -maxdepth 1 -type d -name 'Linux-*-tests.out' -print | sort -V | tail -n 1)"
+          if [ -z "$artifact_dir" ]; then
+            echo "No Linux GORM test artifact found" >&2
+            exit 1
+          fi
+
+          echo "Using $artifact_dir"
+          echo "tests_passed=$(awk '/PASS/{count++} END{print count+0}' "$artifact_dir"/*.out)" >> "$GITHUB_ENV"
+          echo "tests_skipped=$(awk '/SKIP/{count++} END{print count+0}' "$artifact_dir"/*.out)" >> "$GITHUB_ENV"
+          echo "tests_failed=$(awk '/FAIL/{count++} END{print count+0}' "$artifact_dir"/*.out)" >> "$GITHUB_ENV"
       
       - name: Make success badge 
         if: ${{ env.tests_failed == '0' }}

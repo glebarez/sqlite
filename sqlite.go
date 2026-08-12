@@ -49,7 +49,6 @@ func (dialector Dialector) Initialize(db *gorm.DB) (err error) {
 	if dialector.DriverName == "" {
 		dialector.DriverName = DriverName
 	}
-
 	if dialector.Conn != nil {
 		db.ConnPool = dialector.Conn
 	} else {
